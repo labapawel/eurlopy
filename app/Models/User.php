@@ -37,20 +37,42 @@ class User extends Authenticatable
      */
     protected $casts = [
         'expires_at' => 'datetime',
+        'start_at' => 'datetime',
+        // 'hours_per_week' => 'array',
     ];
    
 
-    /**
-     * Set the user's hours per week.
-     *
-     * @param  mixed  $value
-     */
-    public function setHoursPerWeekAttribute($value): void
-    {
-        // dd($value);
+ public function setHoursPerWeekAttribute($value)
+{
+    \Log::info('MUTATOR - setHoursPerWeekAttribute', [
+        'incoming_value' => $value,
+        'type' => gettype($value)
+    ]);
+    
+    if (is_array($value)) {
+        $json = json_encode($value);
+        \Log::info('MUTATOR - converting array to JSON', ['json' => $json]);
+        $this->attributes['hours_per_week'] = $json;
+    } else {
         $this->attributes['hours_per_week'] = $value;
     }
+}
 
+public function getHoursPerWeekAttribute($value)
+{
+    \Log::info('ACCESSOR - getHoursPerWeekAttribute', [
+        'raw_value' => $value,
+        'type' => gettype($value)
+    ]);
+    
+    if (is_string($value)) {
+        $decoded = json_decode($value, true);
+        \Log::info('ACCESSOR - decoded value', ['decoded' => $decoded]);
+        return $decoded ?? [];
+    }
+    
+    return $value ?? [];
+}
     /**
      * The attributes that should be hidden for serialization.
      *

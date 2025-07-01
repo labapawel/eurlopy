@@ -75,9 +75,6 @@ class UserResource extends Resource
                     ->required(),
                     DatePicker::make('expired_at')
                         ->label(__('lang.title.expired_at')),
-                Checkbox::make('active')
-                    ->label(__('lang.title.active'))
-                    ->default(true),    
                 Select::make('role')
                     ->columnSpanFull() // Sekcja na całą szerokość
                     ->options(__('lang.role.options')) // Assuming you have a translation for role options
@@ -89,6 +86,10 @@ class UserResource extends Resource
                 AvailabilityGrid::make('hours_per_week')
                     ->columnSpanFull() // Sekcja na całą szerokość
                     ->label('Dostępność pracownika'),
+                Checkbox::make('active')
+                    ->columnSpanFull() // Sekcja na całą szerokość
+                    ->label(__('lang.title.active'))
+                    ->default(true),    
             ]);
     }
 
