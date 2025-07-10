@@ -16,6 +16,12 @@
             'holyday_hours' => 'Liczba godzin urlopu (-1 oznacza brak limitu godzin, 0 urlop brany z puli dni urlopu)',
             'hours' => 'Liczba godzin',
             'description' => 'Opis',
+            'approved' => 'Zatwierdzony',
+            'paid' => 'Płatny',
+            'user' => 'Użytkownik',
+            'holyday_type' => 'Typ urlopu',
+            'start_date' => 'Data rozpoczęcia',
+            'end_date' => 'Data zakończenia',
             'color' => 'Kolor',
             'is_paid' => 'Płatny urlop',
 

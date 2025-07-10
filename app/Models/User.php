@@ -58,6 +58,11 @@ class User extends Authenticatable
     }
 }
 
+public function holyday()
+{
+    return $this->hasMany(Holyday::class);
+}
+
 public function getHoursPerWeekAttribute($value)
 {
     \Log::info('ACCESSOR - getHoursPerWeekAttribute', [

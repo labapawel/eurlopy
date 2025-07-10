@@ -79,10 +79,10 @@ class HolydayTypeResource extends Resource
                     ->label(__('lang.title.name'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('description')
-                    ->label(__('lang.title.description'))
-                    ->searchable()
-                    ->sortable(),
+                // Tables\Columns\TextColumn::make('description')
+                //     ->label(__('lang.title.description'))
+                //     ->searchable()
+                //     ->sortable(),
                 Tables\Columns\TextColumn::make('hours')
                     ->label(__('lang.title.hours'))
                     ->searchable()
@@ -91,6 +91,10 @@ class HolydayTypeResource extends Resource
                     ->label(__('lang.title.color'))
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\CheckboxColumn::make('active')
+                        ->label(__('lang.title.active'))
+                        ->sortable(),
+
             ])
             ->filters([
                 //
