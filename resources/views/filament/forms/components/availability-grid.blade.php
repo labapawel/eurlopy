@@ -13,6 +13,29 @@
                 width: 100%;
             }
             
+            .dark {
+                .availability-grid {
+                    background: rgb(9, 9, 11); /* Dark background */
+                    border-color: #374151; /* Dark border */
+                }
+                .availability-header, .availability-hour, .availability-checkbox-container{
+                    background: rgba(255, 255, 255, 0.05); /* Dark background */
+                    border-color: #374151; /* Dark border */
+                    color: #fff;
+                }
+
+                
+                .default-hours-btn, .availability-checkbox-container.checked  {
+                    background-color: rgb(245, 158, 11); /* Dark mode button color */
+                    color: white;
+
+                    &.checked {
+                        border-color:rgb(55, 65, 81)
+                    }
+                }
+
+            }
+
             .availability-header {
                 background: #f9fafb;
                 border: 1px solid #6b7280;

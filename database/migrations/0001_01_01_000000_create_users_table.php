@@ -27,6 +27,9 @@ return new class extends Migration
             // Data zakończenia zatrudnienia pracownika, dezaktywacja konta
             $table->timestamp('expired_at')->nullable();
             // ile godzin pracownik jest dostępny w tygodniu, podstawa do wyliczenia urlopu
+            // domyślnie ile godzin urlopu przysuguje na rok
+            $table->string('holyday')->default('26 dni'); // 
+
             $table->string('hours_per_week')->default('{"monday":[],"tuesday":[],"wednesday":[],"thursday":[],"friday":[],"saturday":[],"sunday":[]}');
             $table->rememberToken();
             $table->timestamps();

@@ -127,6 +127,9 @@
 
         {{ $slot }}
 
+        <footer>
+            <p>autor: Paweł Łaba </p>
+        </footer>
         @fluxScripts
     </body>
 </html>

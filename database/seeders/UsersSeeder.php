@@ -17,7 +17,7 @@ class UsersSeeder extends Seeder
             'name' => 'Paweł Łaba',
             'email' => 'labapawel@gmail.com',
             'password' => bcrypt('123456'),
-            'role' => [2], // Super admin
+            'role' => [2  ], // Super admin
             'active' => true,
             'expired_at' => null, // No expiration date
         ]);

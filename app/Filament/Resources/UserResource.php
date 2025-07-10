@@ -50,18 +50,18 @@ class UserResource extends Resource
 }
 
 
-    public static function getNavigationGroup(): string
-    {
-        // dd(_('lang'));
-         return \Lang::get('lang.title.settinggroups');
-    }
-
-    public static function getNavigationLabel(): string
+        public static function getNavigationGroup(): string
         {
-            return \Lang::get('lang.title.users');
+            // dd(_('lang'));
+            return \Lang::get('lang.title.settinggroups');
         }
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+        public static function getNavigationLabel(): string
+            {
+                return \Lang::get('lang.title.users');
+            }
+
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
     {
@@ -73,8 +73,12 @@ class UserResource extends Resource
                 TextInput::make('email')
                     ->label(__('lang.title.email'))
                     ->required(),
-                    DatePicker::make('expired_at')
+                DatePicker::make('start_at')
+                        ->label(__('lang.title.start_at')),
+                DatePicker::make('expired_at')
                         ->label(__('lang.title.expired_at')),
+                TextInput::make('holyday')
+                        ->label(__('lang.title.holyday')),
                 Select::make('role')
                     ->columnSpanFull() // Sekcja na całą szerokość
                     ->options(__('lang.role.options')) // Assuming you have a translation for role options
@@ -105,17 +109,14 @@ class UserResource extends Resource
                     ->label(__('lang.title.email'))
                     ->searchable()
                     ->sortable(),
+
                 TagsColumn::make('expired_at')
                     ->label(\Lang::get('lang.title.info'))
                     ->getStateUsing(function ($record) {
                         $tags = [];
-                        
-                        // dd($record->expired_at);
                         if ($record->expired_at != null && $record->expired_at < Carbon::now()) {
-                            // $carbon = Carbon::parse($record->expired_at);
                             $tags[] = \Lang::get('lang.expired.expired');
                         }
-                        
                         return $tags;
                     })
                    ->color(fn (string $state): string => match($state) {
