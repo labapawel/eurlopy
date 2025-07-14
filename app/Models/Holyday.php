@@ -19,7 +19,11 @@ class Holyday extends Model
     ];
 
     public function user()
-{
-    return $this->belongsTo(User::class);
-}
+        {
+            return $this->belongsTo(User::class);
+        }
+    public function holydaytype()
+        {
+            return $this->belongsTo(HolydayType::class, 'holyday_type_id');
+        }
 }

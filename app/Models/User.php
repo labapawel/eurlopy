@@ -88,6 +88,10 @@ public function getHoursPerWeekAttribute($value)
         'remember_token',
     ];
 
+    function isAdmin(): bool
+    {
+        return ($this->attributes['role'] & 2) == 2;
+    }   
 
     /**
      * konwersja roli na tablicę

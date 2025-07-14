@@ -21,6 +21,12 @@ class HolydayType extends Model
         'hours' => 'integer',
     ];
 
+
+    public function holyday()
+    {
+        return $this->hasMany(Holyday::class);
+    }
+
     public function getColorAttribute($value)
     {
         return $value ?: '#000000'; // Default color if not set

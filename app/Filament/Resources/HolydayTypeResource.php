@@ -23,6 +23,8 @@ class HolydayTypeResource extends Resource
         return false;
     }
 
+
+
     protected static ?string $navigationIcon = 'heroicon-o-swatch';
     protected static ?int $navigationSort = 7;
     
@@ -98,6 +100,7 @@ class HolydayTypeResource extends Resource
             ])
             ->filters([
                 //
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

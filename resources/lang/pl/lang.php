@@ -22,6 +22,7 @@
             'holyday_type' => 'Typ urlopu',
             'start_date' => 'Data rozpoczęcia',
             'end_date' => 'Data zakończenia',
+            'holydays' => 'Urlopy',
             'color' => 'Kolor',
             'is_paid' => 'Płatny urlop',
 

@@ -47,7 +47,7 @@ class UserResource extends Resource
         public static function getNavigationBadge(): ?string
         {
             return static::getModel()::count();
-}
+        }   
 
 
         public static function getNavigationGroup(): string
@@ -93,7 +93,21 @@ class UserResource extends Resource
                 Checkbox::make('active')
                     ->columnSpanFull() // Sekcja na całą szerokość
                     ->label(__('lang.title.active'))
-                    ->default(true),    
+                    ->default(true),
+                Forms\Components\TextInput::make('password')
+                    ->label(__('lang.title.password'))
+                    ->required()
+                    ->minLength(8)
+                    ->maxLength(255)
+                    ->password()
+                    ->confirmed()
+                    ->dehydrateStateUsing(fn ($state) => \Hash::make($state)),
+                Forms\Components\TextInput::make('password_confirmation')
+                    ->label(__('lang.title.password_confirmation'))
+                    ->required()
+                    ->password()
+                    ->dehydrateStateUsing(fn ($state) => \Hash::make($state))
+                    ->same('password'),
             ]);
     }
 

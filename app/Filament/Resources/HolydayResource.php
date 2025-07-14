@@ -25,13 +25,56 @@ class HolydayResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function getEloquentQuery(): Builder
+    {
+        if(!auth()->user()->isAdmin())
+        return parent::getEloquentQuery()->where('user_id', auth()->user()->getKey());
+    return parent::getEloquentQuery();
+    }
+
+    public static function getPluralModelLabel(): string
+        {
+           return \Lang::get('lang.title.holydays');
+        }
+
+    public static function getNavigationBadgeColor(): ?string
+        {
+            return static::getModel()::count() > 10 ? 'warning' : 'primary';
+        }
+
+        public static function getNavigationBadge(): ?string
+        {
+            return '';
+            return static::getModel()::count();
+        }   
+
+
+        // public static function getNavigationGroup(): string
+        // {
+        //     // dd(_('lang'));
+        //     return \Lang::get('lang.title.settinggroups');
+        // }
+
+        public static function getNavigationLabel(): string
+            {
+                return \Lang::get('lang.title.holydays');
+            }
+
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Select::make('user_id')
                     ->label(__('lang.title.user'))
-                    ->options(\App\Models\User::pluck('name', 'id'))
+                    ->options(function () {
+                        $user = auth()->user();
+                        if ($user->isAdmin()) {
+                            return \App\Models\User::pluck('name', 'id');
+                        }
+                        return \App\Models\User::where('id', $user->id)->pluck('name', 'id');
+                    })
+                    // ->options(\App\Models\User::pluck('name', 'id'))
                     ->required(),
                 Select::make('holyday_type_id')
                     ->label(__('lang.title.holyday_type'))
@@ -49,7 +92,7 @@ class HolydayResource extends Resource
                     ->required(),
                 Textarea::make('description')
                     ->label(__('lang.title.description')),
-
+                    
             ]);
     }
 
@@ -61,9 +104,9 @@ class HolydayResource extends Resource
                     ->label(__('lang.title.user'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('holyday_type.name')
+                Tables\Columns\TextColumn::make('holydaytype.name')
                     ->label(__('lang.title.holyday_type'))
-                    ->searchable()
+                    // ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('start_date')
                     ->label(__('lang.title.start_date'))
