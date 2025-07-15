@@ -87,12 +87,13 @@ class HolydayResource extends Resource
                 DateTimePicker::make('end_date')
                     ->label(__('lang.title.end_date'))
                     ->required(),
-                TextInput::make('hours')
-                    ->label(__('lang.title.hours'))
-                    ->numeric()
-                    ->required(),
+                // TextInput::make('hours')
+                //     ->label(__('lang.title.hours'))
+                //     ->numeric()
+                //     ->required(),
                 Textarea::make('description')
-                    ->label(__('lang.title.description')),
+                    ->label(__('lang.title.description'))
+                    ->columnSpanFull(),
                     
             ]);
     }
@@ -117,10 +118,6 @@ class HolydayResource extends Resource
                     ->label(__('lang.title.end_date'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('hours')
-                    ->label(__('lang.title.hours'))
-                    ->searchable()
-                    ->sortable(),
                 // Tables\Columns\TextColumn::make('description')
                 //     ->label(__('lang.title.description'))
                 //     ->searchable()
@@ -129,14 +126,14 @@ class HolydayResource extends Resource
                     ->label(__('lang.title.approved'))
                     ->searchable()
                     ->sortable(),
-                // Tables\Columns\TextColumn::make('paid')
-                //     ->label(__('lang.title.paid'))
-                //     ->searchable()
-                //     ->sortable(),
-                Tables\Columns\CheckboxColumn::make('active')
-                    ->label(__('lang.title.active'))
+                Tables\Columns\TextColumn::make('hours')
+                    ->label(__('lang.title.hours'))
                     ->searchable()
                     ->sortable(),
+                // Tables\Columns\CheckboxColumn::make('active')
+                //     ->label(__('lang.title.active'))
+                //     ->searchable()
+                //     ->sortable(),
             ])
             ->filters([
                 //
