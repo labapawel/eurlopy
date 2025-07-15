@@ -14,6 +14,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Checkbox;
 
+
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -120,19 +121,19 @@ class HolydayResource extends Resource
                     ->label(__('lang.title.hours'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('description')
-                    ->label(__('lang.title.description'))
-                    ->searchable()
-                    ->sortable(),
+                // Tables\Columns\TextColumn::make('description')
+                //     ->label(__('lang.title.description'))
+                //     ->searchable()
+                //     ->sortable(),
                 Tables\Columns\TextColumn::make('approved')
                     ->label(__('lang.title.approved'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('paid')
-                    ->label(__('lang.title.paid'))
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('active')
+                // Tables\Columns\TextColumn::make('paid')
+                //     ->label(__('lang.title.paid'))
+                //     ->searchable()
+                //     ->sortable(),
+                Tables\Columns\CheckboxColumn::make('active')
                     ->label(__('lang.title.active'))
                     ->searchable()
                     ->sortable(),

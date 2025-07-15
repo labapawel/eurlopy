@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class HolydayTypeResource extends Resource
 {
+
+
     protected static ?string $model = HolydayType::class;
 
     public static function canDelete(Model $record): bool
@@ -23,7 +25,15 @@ class HolydayTypeResource extends Resource
         return false;
     }
 
+    // public static function shouldRegisterNavigation(): bool
+    // {
+    //     return auth()->user()?->isAdmin() ?? false;
+    // }
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->isAdmin() || false;
+    }
 
     protected static ?string $navigationIcon = 'heroicon-o-swatch';
     protected static ?int $navigationSort = 7;
@@ -112,6 +122,8 @@ class HolydayTypeResource extends Resource
             ]);
     }
 
+
+
     public static function getRelations(): array
     {
         return [
@@ -121,6 +133,11 @@ class HolydayTypeResource extends Resource
 
     public static function getPages(): array
     {
+
+        // if(!auth()->user()?->isAdmin()) {
+        //    abort(403, 'Unauthorized action.');
+        // }
+
         return [
             'index' => Pages\ListHolydayTypes::route('/'),
             'create' => Pages\CreateHolydayType::route('/create'),

@@ -93,6 +93,15 @@ public function getHoursPerWeekAttribute($value)
         return ($this->attributes['role'] & 2) == 2;
     }   
 
+    public function setPasswordAttribute($value): void
+    {
+        if (!empty($value) && bcrypt("") == $value) 
+        {
+            //  dd($value);
+            $this->attributes['password'] =$value;
+        }
+    }
+
     /**
      * konwersja roli na tablicę
      *
@@ -107,7 +116,7 @@ public function getHoursPerWeekAttribute($value)
                 $roles[] = 1 << $i;
             }
         }
-        // dd($roles);
+      //   dd($roles);
         return $roles;
         
     }

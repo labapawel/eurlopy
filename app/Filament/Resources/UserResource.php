@@ -39,6 +39,13 @@ class UserResource extends Resource
            return \Lang::get('lang.title.users');
         }
 
+    public static function getEloquentQuery(): Builder
+        {
+            if(auth()->user()->isAdmin())
+            return parent::getEloquentQuery();
+        return parent::getEloquentQuery()->where('id', auth()->user()->getKey());
+        }
+
     public static function getNavigationBadgeColor(): ?string
         {
             return static::getModel()::count() > 10 ? 'warning' : 'primary';
@@ -85,6 +92,7 @@ class UserResource extends Resource
                     ->label(__('lang.title.role'))
                     // ->default(0) // Default to user role
                     ->multiple()
+
                     // ->required()
                     ,
                 AvailabilityGrid::make('hours_per_week')
@@ -96,7 +104,7 @@ class UserResource extends Resource
                     ->default(true),
                 Forms\Components\TextInput::make('password')
                     ->label(__('lang.title.password'))
-                    ->required()
+                    // ->required()
                     ->minLength(8)
                     ->maxLength(255)
                     ->password()
@@ -104,7 +112,7 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(fn ($state) => \Hash::make($state)),
                 Forms\Components\TextInput::make('password_confirmation')
                     ->label(__('lang.title.password_confirmation'))
-                    ->required()
+                    // ->required()
                     ->password()
                     ->dehydrateStateUsing(fn ($state) => \Hash::make($state))
                     ->same('password'),

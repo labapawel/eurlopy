@@ -25,6 +25,9 @@
             'holydays' => 'Urlopy',
             'color' => 'Kolor',
             'is_paid' => 'Płatny urlop',
+            'password' => 'Hasło',
+            'password_confirmation' => 'Potwierdzenie hasła',
+            'dayoff' => 'Dni wolne',
 
             'info' => 'Informacje',
         ],
@@ -34,7 +37,6 @@
         ],
         'role' => [
             'options' => [
-                0 => 'Użytkownik',
                 1 => 'Administrator',
                 2 => 'Super Administrator',
                 4 => 'Akceptacja urlopu',
