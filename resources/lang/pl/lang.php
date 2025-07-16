@@ -1,5 +1,10 @@
 <?php
     return [
+        'holydaystat' => [
+            0 => 'Oczekujący',
+            1 => 'Zatwierdzony',
+            2 => 'Odrzucony',
+        ],
         'title' => [
             'name' => 'Imię i nazwisko',
             'email' => 'E-mail',
@@ -15,6 +20,8 @@
             'holyday_description' => 'Opis typu urlopu',
             'holyday_hours' => 'Liczba godzin urlopu (-1 oznacza brak limitu godzin, 0 urlop brany z puli dni urlopu)',
             'hours' => 'Liczba godzin',
+            'accept' => 'Zatwierdź',
+            'reject' => 'Odrzuć',
             'description' => 'Opis',
             'approved' => 'Zatwierdzony',
             'paid' => 'Płatny',

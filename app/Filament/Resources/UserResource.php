@@ -46,15 +46,7 @@ class UserResource extends Resource
         return parent::getEloquentQuery()->where('id', auth()->user()->getKey());
         }
 
-    public static function getNavigationBadgeColor(): ?string
-        {
-            return static::getModel()::count() > 10 ? 'warning' : 'primary';
-        }
 
-        public static function getNavigationBadge(): ?string
-        {
-            return static::getModel()::count();
-        }   
 
 
         public static function getNavigationGroup(): string

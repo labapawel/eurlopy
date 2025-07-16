@@ -254,7 +254,7 @@
                     let isUserInteracting = false;
                     
                     // Konfiguracja godzin
-                    const workingHours = [8, 9, 10, 11, 12, 13, 14, 15, 16];
+                    const workingHours = [8, 9, 10, 11, 12, 13, 14, 15];
                     const allAvailableHours = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
                     const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
                     

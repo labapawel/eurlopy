@@ -20,11 +20,27 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+use App\Filament\Components\DateTimeTextColumn;
+
 class HolydayResource extends Resource
 {
     protected static ?string $model = Holyday::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getNavigationBadgeColor(): ?string
+        {
+            return 'warning';
+        }
+
+        public static function getNavigationBadge(): ?string
+        {
+            if(!auth()->user()->isAdmin())
+                return static::getModel()::where('user_id', auth()->user()->getKey())->where('approved',0)->count();
+
+            return static::getModel()::where('approved',0)->count();
+        }  
+
 
     public static function getEloquentQuery(): Builder
     {
@@ -38,16 +54,6 @@ class HolydayResource extends Resource
            return \Lang::get('lang.title.holydays');
         }
 
-    public static function getNavigationBadgeColor(): ?string
-        {
-            return static::getModel()::count() > 10 ? 'warning' : 'primary';
-        }
-
-        public static function getNavigationBadge(): ?string
-        {
-            return '';
-            return static::getModel()::count();
-        }   
 
 
         // public static function getNavigationGroup(): string
@@ -64,8 +70,35 @@ class HolydayResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $buttons = [];
+        if(auth()->user()->isAdmin()) {
+            $buttons = [
+                 Forms\Components\Actions::make([
+                
+
+                    Forms\Components\Actions\Action::make('accept')
+                    
+                        ->label(__('lang.title.accept'))
+                        ->color('success')
+                        ->action(function ($livewire, $data) {
+                            $livewire->data['approved'] = 1;
+                            $livewire->save();
+                        }),
+                    Forms\Components\Actions\Action::make('reject')
+                        ->label(__('lang.title.reject'))
+                        ->color('danger')
+                        ->action(function ($livewire, $data) {
+                            $livewire->data['approved'] = 0;
+                            $livewire->save();
+                        }),
+                    ])
+                    ];
+            
+        }
+
+
         return $form
-            ->schema([
+            ->schema(array_merge([
                 Select::make('user_id')
                     ->label(__('lang.title.user'))
                     ->options(function () {
@@ -95,11 +128,46 @@ class HolydayResource extends Resource
                     ->label(__('lang.title.description'))
                     ->columnSpanFull(),
                     
-            ]);
+            ], $buttons));
     }
 
     public static function table(Table $table): Table
     {
+        $buttons = [];
+        if(auth()->user()->isAdmin()) {
+            $buttons[] = 
+                Tables\Actions\Action::make('accept')
+                    ->visible(function ($record) {
+                        return $record->approved == 0 || is_null($record->approved);
+                    })
+                    ->label(__('lang.title.accept'))
+                    ->color('success')
+                    ->icon('heroicon-o-check')
+                    ->action(function ($record) {
+                        $record->approved = 1; // zatwierdzenie wniosku
+                        $record->save();
+                    });
+            $buttons[] = 
+                Tables\Actions\Action::make('reject')
+                    ->visible(function ($record) {
+                        return $record->approved == 0 || is_null($record->approved);
+                    })
+                    ->label(__('lang.title.reject'))
+                    ->color('danger')
+                    ->icon('heroicon-o-x-mark')
+                    ->action(function ($record) {
+                          $record->approved = 2; // odrzucenie wniosku
+                          $record->save();
+                        });
+        }
+        $buttons[] = Tables\Actions\EditAction::make()                    
+                            ->visible(function ($record) {
+                                if(!auth()->user()->isAdmin()) {
+                                    return $record->approved == 0 || is_null($record->approved);
+                                }
+                                return true;
+                            });
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
@@ -110,19 +178,26 @@ class HolydayResource extends Resource
                     ->label(__('lang.title.holyday_type'))
                     // ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('start_date')
-                    ->label(__('lang.title.start_date'))
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('end_date')
-                    ->label(__('lang.title.end_date'))
-                    ->searchable()
-                    ->sortable(),
+                DateTimeTextColumn::make('start_date')
+                        ->label(__('lang.title.start_date'))
+                        ->searchable()
+                        ->sortable()
+                        ->customFormat('Y-m-d H:i'),
+                DateTimeTextColumn::make('end_date')
+                        ->label(__('lang.title.end_date'))
+                        ->searchable()
+                        ->sortable()
+                        ->customFormat('Y-m-d H:i'),
+    
                 // Tables\Columns\TextColumn::make('description')
                 //     ->label(__('lang.title.description'))
-                //     ->searchable()
+                    // ->searchable()
                 //     ->sortable(),
                 Tables\Columns\TextColumn::make('approved')
+                    ->formatStateUsing(function ($state) {
+                        $statuses = \Lang::get('lang.holydaystat');
+                        return $statuses[$state] ?? $state;
+                    })
                     ->label(__('lang.title.approved'))
                     ->searchable()
                     ->sortable(),
@@ -138,13 +213,11 @@ class HolydayResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
+            ->actions( $buttons )
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 
