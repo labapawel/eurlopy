@@ -19,4 +19,10 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
+Route::get("/pass", function(){
+    $user = \App\Models\User::find(3);
+    $user->password = \Hash::make("123456");
+    $user->save();
+    return "OK";
+});
 // require __DIR__.'/auth.php';

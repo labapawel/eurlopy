@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             UsersSeeder::class,
+            Urlopy::class, // typy urlopów
             // Add other seeders here
         ]);
     }

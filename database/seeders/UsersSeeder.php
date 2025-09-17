@@ -13,14 +13,17 @@ class UsersSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+       $dane =  User::firstOrCreate([
             'name' => 'Paweł Łaba',
             'email' => 'labapawel@gmail.com',
-            'password' => bcrypt('123456'),
-            'role' => [2  ], // Super admin
+              'password' => \Hash::make('123456'),
+            'role' => [2], // Super admin
             'active' => true,
             'expired_at' => null, // No expiration date
         ]);
+
+        // $dane->password= "123456";
+        $dane->save();
 
     }
 }

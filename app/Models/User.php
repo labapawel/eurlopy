@@ -95,7 +95,7 @@ public function getHoursPerWeekAttribute($value)
 
     public function setPasswordAttribute($value): void
     {
-        if (!empty($value) && bcrypt("") == $value) 
+        if (!empty($value) && bcrypt("") != $value) 
         {
             //  dd($value);
             $this->attributes['password'] =$value;
